@@ -1,7 +1,7 @@
-eComm-Proj-Demo
+E-Commerce-Project
 ----------
 
-This is my eCommerce project. Demo Project done for the practice purpose only.
+This is my 'eCommerce Website With Visitor Tracking System' project.
 ----------
 
 CHAPTER 1 INTRODUCTION:- 
