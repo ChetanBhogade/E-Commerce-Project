@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Contact Page {% endblock %}
+
+{% block content %}
+<div class="container">
+    <form method="POST"> {% csrf_token %}
+        <div class="text-center form-group mb-4">
+            <img class="mb-4" src="{% static 'imgs/contact.png' %}"
+                alt="Contact Us" width="150" height="165">
+            <h1 class="h2 mb-3 font-weight-normal">{{ title }}</h1>
+            <p>{{ content }}</p>
+        </div>
+        <div class="col-sm-6 col-12 form-group mx-auto">
+            {{ form }}
+            <button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

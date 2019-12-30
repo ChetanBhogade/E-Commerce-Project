@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %} Search Result {% endblock %}
+
+{% block content %}
+<div class="container py-3">
+
+    <div class="row mb-3">
+        {% if query %}
+        <div class="col-12">
+            Result For : <b>{{ query }} </b>
+            <hr>
+        </div>
+        {% else %}
+        <div class="col-12 col-md-6 mx-auto py-5">
+            {% include 'search/snippets/search-form.html' %}
+        </div>
+        <div class="col-12">
+            <hr>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="row mt-2">
+
+        <div class="col-md-9 mx-auto">
+            {% if object_list.count == 0 or messages %}
+            Your search - <b>{{ query }}</b> - did not match any contents.
+            <br>
+            Suggestions:
+            <ul>
+                <li>
+                    Make sure that all words are spelled correctly.
+                </li>
+                <li>
+                    Try different keywords.
+                </li>
+                <li>
+                    Try more general keywords.
+                </li>
+            </ul>
+
+            {% else %}
+                {% for prod in object_list %}
+                    {% if query|length >= 1 %}
+                    <!-- product list-->
+                    <div class="row mb-5">
+                        <div class="col-md-3 col-sm-3 col-12 text-center">
+                            <a href="{{ prod.get_absolute_url }}"><img src="{{ prod.image.url }}" style="width: 85%;"
+                                    class="mx-auto img-fluid" alt="{{ prod.title }}"></a>
+                        </div>
+                        <!-- <div class="col-12 d-block d-sm-none"> &nbsp; </div> -->
+                        <div class="col-md-6 col-sm-7 col-8">
+                            <h5 class="text-uppercase"><a href="{{ prod.get_absolute_url }}">{{ prod.title }}</a></h5>
+                            <p class=" mb-0">
+                                {{ prod.description|truncatewords:15 }}
+                            </p>
+                            <p class="mt-2"><b>Price:</b> ₹ {{ prod.price }}</p>
+                        </div>
+                        <div class="col-md-3 col-sm-2 col-4 text-right pl-0">
+                            <h6 class="small text-wide text-truncate">Category</h6>
+                            <div class="float-right text-nowrap"><span class="text-primary"><i
+                                        class="ion-ios-star fa fa-star"></i> <i class="ion-ios-star fa fa-star"></i> <i
+                                        class="ion-ios-star fa fa-star"></i> <i class="ion-ios-star fa fa-star"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

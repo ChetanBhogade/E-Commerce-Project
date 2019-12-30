@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %} Product: {{ object.title }} {% endblock %}
+
+{% block content %}
+    <div class="container border mt-5 pt-4">
+        <div class="container dark-grey-text mt-5">
+            <!--Grid row-->
+            <div class="row">
+                <!--Grid column-->
+                <div class="col-md-6 mb-4">
+                    <img src="{{ object.image.url }}" class="img img-fluid" alt="{{ object.title }}">
+                </div>
+                <!--Grid column-->
+    
+                <!--Grid column-->
+                <div class="col-md-6 mb-4">
+                    <!--Content-->
+                    <div class="p-4">
+                        <span class="mr-1">Since: {{ object.timestamp|timesince }} ago</span>
+
+                        <p class="lead font-weight-bold">{{ object.title }}</p>
+
+                        <p class="lead">
+                            <span> ₹ {{ object.price }}</span>
+                        </p>
+
+                        <p class="lead font-weight-bold">Description</p>
+                        <p>{{ object.description|truncatewords:15 }} <a href="#mydesc">Read More</a></p>
+
+                        <a href="#" class="btn btn-primary btn-md my-0 p ">Add to cart 
+                            <i class="fas fa-cart-arrow-down"></i>
+                        </a>
+
+                    </div>
+                    <!--Content-->
+                </div>
+                <!--Grid column-->
+            </div>
+            <!--Grid row-->
+    
+            <hr id="mydesc">
+    
+            <!--Grid row-->
+            <div class="row d-flex justify-content-center pb-3">
+    
+                <!--Grid column-->
+                <div class="col-md-8 text-center">
+                    <h4 class="my-4 h3">Additional information</h4>
+                    <p>{{ object.description }} </p>
+                </div>
+                <!--Grid column-->
+            </div>
+            <hr>
+            <!--Grid row-->
+        </div>
+    </div>
+{% endblock %}
