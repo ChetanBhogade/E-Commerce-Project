@@ -24,7 +24,7 @@
     <div class="row mt-2">
 
         <div class="col-md-9 mx-auto">
-            {% if object_list.count == 0 or messages %}
+            {% if result.count == 0 or messages %}
             Your search - <b>{{ query }}</b> - did not match any contents.
             <br>
             Suggestions:
@@ -41,7 +41,7 @@
             </ul>
 
             {% else %}
-                {% for prod in object_list %}
+                {% for prod in result %}
                     {% if query|length >= 1 %}
                     <!-- product list-->
                     <div class="row mb-5">

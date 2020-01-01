@@ -21,7 +21,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from .views import home_page, contact_page, login_page, register_page, logout_page
-from products.views import SearchProductView
+from products.views import search_product 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,7 +30,7 @@ urlpatterns = [
     path('login/', login_page, name='login'),
     path('register/', register_page, name='register'),
     path('logout/', logout_page, name='logout'),
-    path('search/', SearchProductView.as_view(), name='search'),
+    path('search/', search_product, name='search'),
     path('products/', include('products.urls', namespace='products')),
 
 ]
