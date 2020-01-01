@@ -1,4 +1,3 @@
-from django.views.generic import ListView, DetailView
 from django.shortcuts import render, Http404
 from django.contrib import messages
 
@@ -29,8 +28,9 @@ def search_product(request):
     query = request.GET.get('query', None)
     if query is not None:
         qs1 = Product.objects.filter(title__icontains = query)
+        qs3 = Product.objects.filter(category__icontains = query)
         qs2 = Product.objects.filter(description__icontains = query)
-        result = qs1.union(qs2)
+        result = qs1.union(qs2, qs3)
     else:
         result = Product.objects.none()
 

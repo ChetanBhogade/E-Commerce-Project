@@ -27,10 +27,20 @@ class ProductManager(models.Manager):
             return qs.first()
         return None
 
+CATEGORY_CHOICES = (
+    ('Mobiles', 'mobiles'),
+    ('Accessories', 'accessories'),
+    ('Watches', 'watches'),
+    ('Shirts', 'shirts'),
+    ('Shoes', 'shoes'),
+    ('Others', 'others'),
+
+)
 class Product(models.Model):
     title       = models.CharField(max_length=120)
     slug        = models.SlugField(blank=True, unique=True)
     description = models.TextField()
+    category    = models.CharField(max_length=120, choices=CATEGORY_CHOICES)
     price       = models.IntegerField(default=39)
     image       = models.ImageField(upload_to=upload_file_path, null=True)
     timestamp   = models.DateTimeField(auto_now_add=True)
