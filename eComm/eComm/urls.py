@@ -32,6 +32,7 @@ urlpatterns = [
     path('logout/', logout_page, name='logout'),
     path('search/', search_product, name='search'),
     path('products/', include('products.urls', namespace='products')),
+    path('cart/', include('carts.urls', namespace='cart')),
 
 ]
 

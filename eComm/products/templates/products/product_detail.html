@@ -19,14 +19,20 @@
                     <div class="p-4">
                         <span class="mr-1">Since: {{ product.timestamp|timesince }} ago</span>
 
-                        <p class="lead font-weight-bold">{{ product.title }}</p>
+                        <p class="font-weight-bold h2">{{ product.title }}</p>
+                        <hr>
+
+                        <p class="lead h6 mb-0"><b>Category: </b></p>
+                        <p> {{ product.category }}</p>
 
                         <p class="lead">
+                            <p class="font-weight-bold h5">Price: </p>
                             <span> ₹ {{ product.price }}</span>
                         </p>
 
-                        <p class="lead font-weight-bold">Description</p>
+                        <p class="font-weight-bold h5">Description: </p>
                         <p>{{ product.description|truncatewords:15 }} <a href="#mydesc">Read More</a></p>
+
 
                         <a href="#" class="btn btn-primary btn-md my-0 p ">Add to cart 
                             <i class="fas fa-cart-arrow-down"></i>
