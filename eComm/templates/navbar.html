@@ -4,6 +4,7 @@
 {% url 'register' as register_url %}
 {% url 'logout' as logout_url %}
 {% url 'products:product-list' as products_url %}
+{% url 'cart:home' as cart_url %}
 
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top mb-3 bg-dark py-1">
     <div class="container">
@@ -36,8 +37,8 @@
                         <a class="nav-link" href="{{ register_url }}">Register</a>
                     </li>
                 {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Cart</a>
+                <li class="nav-item {% if request.path == cart_url %} active {% endif %}">
+                    <a class="nav-link" href="{{ cart_url }}"><i class="fas fa-cart-arrow-down"></i> {{ request.session.cart_items_count }} </a>
                 </li>
 
             </ul>

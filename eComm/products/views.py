@@ -2,6 +2,7 @@ from django.shortcuts import render, Http404
 from django.contrib import messages
 
 from .models import Product
+from carts.models import Cart
 # Create your views here.
 
 def product_list(request):
@@ -16,10 +17,12 @@ def product_detail(request, *args, **kwargs):
     slug = kwargs.get('slug')
     try:
         instance = Product.objects.get(slug=slug)
+        cart_obj = Cart.objects.new_or_get(request=request)
     except:
         raise Http404("Product Doesn't Exists.")
     context = {
-        "product": instance
+        "product": instance,
+        "cart": cart_obj
     }
     return render(request, "products/product_detail.html", context=context)
     

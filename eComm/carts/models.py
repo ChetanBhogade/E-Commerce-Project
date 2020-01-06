@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.db.models.signals import m2m_changed
+from django.contrib import messages
+from django.shortcuts import redirect
 
 from products.models import Product
 # Create your models here.
@@ -8,7 +10,25 @@ from products.models import Product
 User = settings.AUTH_USER_MODEL
 
 class CartManager(models.Manager):
-    pass
+    def new_or_get(self, request):
+        cart_id = request.session.get('cart_id', None)
+        qs = Cart.objects.filter(id=cart_id)
+        cart_obj = None
+        
+        if qs.count() == 1:
+            cart_obj = qs.first()
+            if request.user.is_authenticated and request.user is not None:
+                cart_obj.user = request.user
+                cart_obj.save()
+        else:
+            if request.user is not None:
+                if request.user.is_authenticated:
+                    cart_obj = Cart.objects.create(user=request.user)
+                    request.session["cart_id"] = cart_obj.id
+                else:
+                    messages.info(request, "Please Login, Before Buying Product.")
+                    return redirect("login")
+        return cart_obj
 
 class Cart(models.Model):
     id          = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')

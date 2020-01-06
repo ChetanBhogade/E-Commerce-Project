@@ -34,9 +34,10 @@
                         <p>{{ product.description|truncatewords:15 }} <a href="#mydesc">Read More</a></p>
 
 
-                        <a href="#" class="btn btn-primary btn-md my-0 p ">Add to cart 
+                        <!-- <a href="#" class="btn btn-primary btn-md my-0 p ">Add to cart 
                             <i class="fas fa-cart-arrow-down"></i>
-                        </a>
+                        </a> -->
+                        {% include 'carts/snippets/cart-button.html' with product=product cart=cart %}
 
                     </div>
                     <!--Content-->
