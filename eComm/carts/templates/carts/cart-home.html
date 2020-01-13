@@ -4,8 +4,28 @@
 
 
 <div class="container pb-5">
-    <h1>Cart</h1>
-    
+    {% if is_empty %}
+
+    <div class="container p-5">
+        <div class="row">
+            <div class="col-5 mx-auto">
+                <div class="text-center mx-md-auto">
+                    <i class="fas fa-cart-arrow-down h1"></i>
+                </div>
+                <div class="text-center">
+                    <h3 class="pb-4">Your Cart is Currently Empty.</h3>
+                    <p class="text-center pb-2">Before proceed to checkout you must add some products to your shopping
+                        cart. You will find a lot of interesting products on our "Products" page.</p>
+                    <a href="{% url 'products:product-list' %}" class="btn btn-primary px-5">Start Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+
+    <h1>Cart: </h1>
+
     <table class="table table-hover">
         <thead class="thead-dark">
             <tr>
@@ -32,5 +52,8 @@
             </tr>
         </tbody>
     </table>
+
+    {% endif %}
+
 </div>
 {% endblock %}

@@ -7,8 +7,14 @@ from products.models import Product
 
 def cart_home(request):
     cart_obj = Cart.objects.new_or_get(request=request)
+    length = len(cart_obj.products.all())
+    if length == 0:
+        is_empty = True
+    else:
+        is_empty = False
     context = {
-        'cart_obj': cart_obj
+        'cart_obj': cart_obj,
+        "is_empty": is_empty
     }
     return render(request, "carts/cart-home.html", context=context)
 
