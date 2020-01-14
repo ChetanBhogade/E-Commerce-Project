@@ -13,7 +13,6 @@ def order_checkout(request):
         if cart_obj is not None:
             if not (len(cart_obj.products.all()) == 0):
                 order_obj, created = Order.objects.new_or_get(cart_obj)
-                print(order_obj, created)
             else:
                 messages.warning(request, "Cart is empty now, Please add some products into cart for order.")
                 return redirect("cart:home")
@@ -21,7 +20,8 @@ def order_checkout(request):
         messages.warning(request, "Please Login. You cannot access this page!!!")
         return redirect("login")
     context = {
-        "order_obj": order_obj
+        "order_obj": order_obj,
+        "cart_obj": cart_obj
     }
     return render(request, "orders/checkout.html", context=context)
 
