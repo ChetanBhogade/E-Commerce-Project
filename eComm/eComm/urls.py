@@ -33,6 +33,7 @@ urlpatterns = [
     path('search/', search_product, name='search'),
     path('products/', include('products.urls', namespace='products')),
     path('cart/', include('carts.urls', namespace='cart')),
+    path('order/', include('orders.urls', namespace='order')),
 
 ]
 

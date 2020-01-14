@@ -25,9 +25,6 @@ class CartManager(models.Manager):
                 if request.user.is_authenticated:
                     cart_obj = Cart.objects.create(user=request.user)
                     request.session["cart_id"] = cart_obj.id
-                else:
-                    messages.info(request, "Please Login, Before Buying Product.")
-                    return redirect("login")
         return cart_obj
 
 class Cart(models.Model):

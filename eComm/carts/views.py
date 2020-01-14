@@ -7,11 +7,14 @@ from products.models import Product
 
 def cart_home(request):
     cart_obj = Cart.objects.new_or_get(request=request)
-    length = len(cart_obj.products.all())
-    if length == 0:
-        is_empty = True
-    else:
-        is_empty = False
+    is_empty = True
+    if cart_obj is not None:
+        length = len(cart_obj.products.all())
+        if length == 0:
+            is_empty = True
+        else:
+            is_empty = False
+
     context = {
         'cart_obj': cart_obj,
         "is_empty": is_empty
@@ -36,6 +39,7 @@ def cart_update(request):
         else:
             cart_obj.products.add(product_obj)
     else:
+        messages.warning(request, "Please Login, before buying a product.")
         return redirect("login")
 
     request.session['cart_items_count'] = cart_obj.products.all().count()
