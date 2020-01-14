@@ -20,7 +20,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from .views import home_page, contact_page, login_page, register_page, logout_page
+from .views import home_page, contact_page
+from accounts.views import login_page, register_page, logout_page
 from products.views import search_product 
 
 urlpatterns = [
