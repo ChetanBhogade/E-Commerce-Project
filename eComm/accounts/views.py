@@ -26,7 +26,7 @@ def login_page(request):
         # Return an 'invalid login' error message.
         print("Error...")
     
-    return render(request, 'auth/login.html', context=context)
+    return render(request, 'accounts/login.html', context=context)
 
 def register_page(request):
     form = RegisterForm(request.POST or None)
@@ -42,7 +42,7 @@ def register_page(request):
         print("User created : ", user)
         messages.success(request, f"User: - '{user}' successfully Added.")
         print(form.cleaned_data)
-    return render(request, 'auth/register.html', context=context)
+    return render(request, 'accounts/register.html', context=context)
 
 
 def logout_page(request):

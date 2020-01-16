@@ -3,11 +3,13 @@ from django.contrib import messages
 
 from .models import Order
 from carts.models import Cart
+from accounts.forms import AddressForm
 # Create your views here.
 
 
 def order_checkout(request):
     order_obj = None
+    form = AddressForm(request.POST or None)
     if request.user.is_authenticated:
         cart_obj = Cart.objects.new_or_get(request)
         if cart_obj is not None:
@@ -21,7 +23,8 @@ def order_checkout(request):
         return redirect("login")
     context = {
         "order_obj": order_obj,
-        "cart_obj": cart_obj
+        "cart_obj": cart_obj,
+        "form": form
     }
     return render(request, "orders/checkout.html", context=context)
 

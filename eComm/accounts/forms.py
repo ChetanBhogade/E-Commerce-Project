@@ -1,5 +1,7 @@
 from django import forms
 
+from .models import Address
+
 
 class LoginForm(forms.Form):
     username    = forms.CharField(widget=forms.TextInput(
@@ -56,4 +58,48 @@ class RegisterForm(forms.Form):
         if password != password2:
             raise forms.ValidationError("Password must match.")
         return data
+
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ['address_line1', 'address_line2', 'city', 'state', 'country', 'pincode']
+        widgets = {
+            'address_line1': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'House/Building Name'
+                }
+            ),
+            'address_line2': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Street'
+                }
+            ),
+            'city': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'City Name'
+                }
+            ),
+            'state': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'State Name'
+                }
+            ),
+            'country': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Country Name'
+                }
+            ),
+            'pincode': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Your Postal Code'
+                }
+            )
+        }
 
