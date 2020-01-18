@@ -4,7 +4,9 @@ from django.contrib import messages
 from .models import Cart
 from products.models import Product
 from accounts.forms import AddressForm
-from accounts.models import BillingProfile
+from accounts.models import BillingProfile, Address
+from orders.models import Order
+
 # Create your views here.
 
 def cart_home(request):
@@ -56,11 +58,18 @@ def checkout_home(request):
         if cart_obj.products.count() == 0:
             messages.info(request, "Cart is empty now!")
             return redirect("cart:home")
-        address_form = AddressForm(request.POST)
+        address_form = AddressForm()
 
         billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request=request)
 
+        if billing_profile is not None:
+            order_obj, order_obj_created = Order.objects.new_or_get(cart_obj=cart_obj, billing_profile=billing_profile)
 
+            billing_address_id = request.session.get('billing_address_id')
+            if billing_address_id:
+                order_obj.billing_address = Address.objects.get(id=billing_address_id)
+                del request.session['billing_address_id']
+                order_obj.save()
 
 
 

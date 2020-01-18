@@ -3,32 +3,29 @@ from django.db.models.signals import pre_save, post_save
 
 from carts.models import Cart
 from eComm.utils import unique_order_id_generator
-from accounts.models import Address
+from accounts.models import Address, BillingProfile
 # Create your models here.
 
 class OrderManager(models.Manager):
-    def new_or_get(self, cart_obj):
+    def new_or_get(self, cart_obj, billing_profile):
         created = False
         obj = None
-        qs = Order.objects.filter(cart=cart_obj)
+        qs = Order.objects.filter(cart=cart_obj, billing_profile=billing_profile)
         if qs.count() == 1:
             obj = qs.first()
         else:
-            obj = Order.objects.create(cart=cart_obj)
+            obj = Order.objects.create(cart=cart_obj, billing_profile=billing_profile)
             created = True
         return obj, created
 
-PAYMENT_TYPE_CHOICES = (
-    ('Card', 'Card'),
-    ('COD', 'COD')
-)
 
 class Order(models.Model):
     order_id        = models.CharField(max_length=50, primary_key=True)
+    billing_profile = models.ForeignKey(BillingProfile, on_delete=models.CASCADE, null=True, blank=True)
     cart            = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    billing_address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True)
     shipping_cost   = models.IntegerField(default=10)
     total           = models.IntegerField(default=0)
-    payment_type    = models.CharField(max_length=50, choices=PAYMENT_TYPE_CHOICES, null=True, blank=True)
     updated         = models.DateTimeField(auto_now=True)
     timestamp       = models.DateTimeField(auto_now_add=True)
 
@@ -50,6 +47,9 @@ class Order(models.Model):
 def pre_save_order_id_receiver(sender, instance, *args, **kwargs):
     if not instance.order_id:
         instance.order_id = unique_order_id_generator(instance=instance)
+    qs = Order.objects.filter(cart=instance.cart).exclude(billing_profile=instance.billing_profile)
+    if qs.exists():
+        qs.delete()
 
 pre_save.connect(pre_save_order_id_receiver, sender=Order)
 

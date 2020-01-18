@@ -34,7 +34,7 @@ post_save.connect(post_save_email_receiver, sender=User)
 ###########################################################################################################
 
 class Address(models.Model):
-    BillingProfile  = models.ForeignKey(BillingProfile, null=True, on_delete=models.CASCADE)
+    billing_profile  = models.ForeignKey(BillingProfile, null=True, on_delete=models.CASCADE)
     address_line1   = models.CharField(max_length=120)
     address_line2   = models.CharField(max_length=120, null=True, blank=True)
     city            = models.CharField(max_length=120)
@@ -43,6 +43,6 @@ class Address(models.Model):
     pincode         = models.CharField(max_length=120)
 
     def __str__(self):
-        return str(self.BillingProfile)
+        return str(self.billing_profile)
 
 

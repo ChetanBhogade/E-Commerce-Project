@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from .forms import LoginForm, RegisterForm
+from accounts.forms import AddressForm
+from accounts.models import BillingProfile
 # Create your views here.
 
 
@@ -54,3 +56,21 @@ def logout_page(request):
     else:
         messages.error(request, "Logging out failed...")
 
+
+def address_create_view(request):
+    form = AddressForm(request.POST or None)
+
+    if form.is_valid():
+        print(request.POST)
+        instance = form.save(commit=False)
+        billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request=request)
+
+        if billing_profile is not None:
+            instance.billing_profile = billing_profile
+            instance.save()
+            request.session['billing_address_id'] = instance.id
+        else:
+            messages.error(request, "Might have some problem....!")
+            return redirect("cart:checkout")
+
+    return redirect("cart:checkout")
