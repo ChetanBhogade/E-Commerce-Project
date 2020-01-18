@@ -3,6 +3,8 @@ from django.contrib import messages
 
 from .models import Cart
 from products.models import Product
+from accounts.forms import AddressForm
+from accounts.models import BillingProfile
 # Create your views here.
 
 def cart_home(request):
@@ -45,3 +47,81 @@ def cart_update(request):
     request.session['cart_items_count'] = cart_obj.products.all().count()
         
     return redirect("cart:home")
+
+
+def checkout_home(request):
+    order_obj = None
+    if request.user.is_authenticated:
+        cart_obj = Cart.objects.new_or_get(request)
+        if cart_obj.products.count() == 0:
+            messages.info(request, "Cart is empty now!")
+            return redirect("cart:home")
+        address_form = AddressForm(request.POST)
+
+        billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request=request)
+
+
+
+
+
+    else:
+        messages.warning(request, "Please login, you cannot access this page.")
+        return redirect("login")
+
+
+    context = {
+        'address_form': address_form,
+        'cart_obj': cart_obj,
+        'order_obj': order_obj,
+        'billing_profile': billing_profile
+    }
+    return render(request, "carts/checkout.html", context=context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def order_checkout(request):
+#     order_obj = None
+#     if request.user.is_authenticated:
+#         cart_obj = Cart.objects.new_or_get(request)
+#         if cart_obj is not None:
+#             if not (len(cart_obj.products.all()) == 0):
+#                 order_obj, created = Order.objects.new_or_get(cart_obj)
+#                 address_form = AddressForm()
+                
+
+
+
+
+#             else:
+#                 messages.warning(request, "Cart is empty now, Please add some products into cart for order.")
+#                 return redirect("cart:home")
+#     else:
+#         messages.warning(request, "Please Login. You cannot access this page!!!")
+#         return redirect("login")
+#     context = {
+#         "order_obj": order_obj,
+#         "cart_obj": cart_obj,
+#         "form": address_form
+#     }
+#     return render(request, "orders/checkout.html", context=context)
+

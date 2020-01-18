@@ -3,6 +3,7 @@ from django.db.models.signals import pre_save, post_save
 
 from carts.models import Cart
 from eComm.utils import unique_order_id_generator
+from accounts.models import Address
 # Create your models here.
 
 class OrderManager(models.Manager):
@@ -17,11 +18,17 @@ class OrderManager(models.Manager):
             created = True
         return obj, created
 
+PAYMENT_TYPE_CHOICES = (
+    ('Card', 'Card'),
+    ('COD', 'COD')
+)
+
 class Order(models.Model):
     order_id        = models.CharField(max_length=50, primary_key=True)
     cart            = models.ForeignKey(Cart, on_delete=models.CASCADE)
     shipping_cost   = models.IntegerField(default=10)
     total           = models.IntegerField(default=0)
+    payment_type    = models.CharField(max_length=50, choices=PAYMENT_TYPE_CHOICES, null=True, blank=True)
     updated         = models.DateTimeField(auto_now=True)
     timestamp       = models.DateTimeField(auto_now_add=True)
 

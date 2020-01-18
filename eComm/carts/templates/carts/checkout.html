@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %} 
+
+<div class="container">
+    <div class="py-3 text-center">
+        <img class="d-block mx-auto mb-2" src="{% static 'imgs\checkout.png' %}" alt="Checkout Form" width="130"
+            height="130">
+        <h2>Checkout form</h2>
+        <hr>
+    </div>
+    <div class="row">
+        <div class="col-md-8 mb-4">
+            <div class="card">
+                {% if billing_profile %}
+                    <form method="POST" class="card-body form-group">
+                        {% csrf_token %}
+
+
+                        <h3>Billing Address: </h3>
+                        <hr>
+                        <div>
+                            {{ address_form.as_p }}
+                            
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="set_default_shipping"
+                                id="set_default_shipping">
+                                <label class="custom-control-label" for="set_default_shipping">Save as default shipping
+                                    address</label>
+                            </div> 
+                            
+                        </div>
+                        <hr>
+                        <h3>Payment option</h3>
+                        
+                        <div class="d-block my-3">
+                            <div class="custom-control custom-radio">
+                                <input id="myCard" name="payment_type" value="Card" type="radio" class="custom-control-input"
+                                required="">
+                                <label class="custom-control-label" for="myCard">Card</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="cashOnDelivery" name="payment_type" value="COD" type="radio" class="custom-control-input"
+                                required="">
+                                <label class="custom-control-label" for="cashOnDelivery">Cash On Delivery</label>
+                            </div>
+                        </div>
+                        
+                        <hr class="mb-4">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                        
+                    </form>
+                {% else %}
+                    <h2>Your Address has been send.</h2>
+                {% endif %}
+
+            </div>
+
+        </div>
+        <!-- 2nd Section Completed over here. -->
+        <div class="col-md-4 mb-4">
+            <div class="col-md-12 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your cart</span>
+                    <span class="badge badge-secondary badge-pill"> {{ request.session.cart_items_count }} </span>
+                </h4>
+                <ul class="list-group mb-3">
+                    {% for product in cart_obj.products.all %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <div>
+                            <h6 class="my-0 mr-1">{{ product.title }}</h6>
+                            <small class="text-muted">{{ product.category }}</small>
+                        </div>
+                        <span class="text-muted"> ₹{{ product.price }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Cart Total</span>
+                            <span> ₹{{ cart_obj.total }}</span>
+                        </li>
+                        {% if order_obj %}
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Shipping Cost</span>
+                                <span> ₹{{ order_obj.shipping_cost }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <strong>Total (IND)</strong>
+                                <strong> ₹{{ order_obj.total }}</strong>
+                            </li>
+                        {% endif %}
+                        <span>
+                            <small> {% if order_obj is None %} Note: The Shipping cost will be display after submitting the Address form. {% endif %} </small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
