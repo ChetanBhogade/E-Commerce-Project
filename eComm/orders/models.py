@@ -31,7 +31,7 @@ class Order(models.Model):
     billing_address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True)
     shipping_cost   = models.IntegerField(default=10)
     total           = models.IntegerField(default=0)
-    status          = models.CharField(max_length=50, default='created', choices=STATUS_CHOICES)
+    status          = models.CharField(max_length=50, default='Created', choices=STATUS_CHOICES)
     updated         = models.DateTimeField(auto_now=True)
     timestamp       = models.DateTimeField(auto_now_add=True)
 
