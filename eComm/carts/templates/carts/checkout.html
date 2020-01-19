@@ -1,40 +1,129 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Checkout Page {% endblock %}
 
 {% block content %}
-<div>
-    <h1> {{ order_obj.order_id }} --- {{ cart_obj.id }} </h1>
-</div>
 
-{% if not order_obj.billing_address %}
-<div class="row">
-    <div class="col-12 col-md-6 mx-auto">
-        <h1>Billing address</h1>
-        <form method="POST" action="{% url 'address_create_view' %}">
-            {% csrf_token %}
-            {{ address_form.as_p }}
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
-</div>
-
-{% else %}
-<div class="row">
-    <div class="col-12">
-        <h1>Finalize Checkout: </h1>
+<div class="container">
+    <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="{% static 'imgs/checkout.png' %}" alt="Checkout Logo" width="120"
+            height="120">
+        <h1>Checkout Page</h1>
         <hr>
     </div>
-    <div class="col-12 col-md-6 mx-auto">
-        <h3>Order id: {{ order_obj.order_id }} </h3>
-        <h3>Cart Products: <small>{% for prod in cart_obj.products.all %} {{prod}}{% if not forloop.last %}, {% endif %}{% endfor %}</small> </h3>
-        <h3>Billing Address: {{ order_obj.billing_address.get_address }} </h3>
-        <h3>Cart Total: {{ cart_obj.total }} </h3>
-        <h3>Shipping Cost: {{ order_obj.shipping_cost }} </h3>
-        <h3>Order Total: {{ order_obj.total }} </h3>
-        <form method="POST"> {% csrf_token %}
-            <button class="btn btn-success" type="submit">Submit</button>
-        </form>
+
+    <div class="row">
+        {% if not order_obj.billing_address %}
+        <div class="col-md-8 border p-4">
+            <h4 class="mb-3">Billing Address</h4>
+            <hr>
+            <form method="POST" action="{% url 'address_create_view' %}">
+                {% csrf_token %}
+
+                {{ address_form.as_p }}
+
+                <hr class="mb-4">
+
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="save-info">
+                    <label class="custom-control-label" for="save-info">Save this information for next time</label>
+                </div>
+                <hr class="mb-4">
+
+                <h4 class="mb-3">Payment</h4>
+
+                <div class="d-block my-3">
+                    <div class="custom-control custom-radio">
+                        <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked
+                            required>
+                        <label class="custom-control-label" for="credit">Credit card</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                        <label class="custom-control-label" for="debit">Debit card</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
+                        <label class="custom-control-label" for="paypal">PayPal</label>
+                    </div>
+                </div>
+
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="col-md-8 border p-4">
+            <h3 class="mb-3">Finalize Checkout</h3>
+            <hr>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td><b>Order ID: </b></td>
+                        <td> {{ order_obj.order_id }} </td>
+                    </tr>
+                    <tr>
+                        <td><b>Your Email ID: </b></td>
+                        <td> {{ order_obj.billing_profile }} </td>
+                    </tr>
+                    <tr>
+                        <td><b>Billing Address: </b></td>
+                        <td> {{ order_obj.billing_address.get_address }} </td>
+                    </tr>
+                    <tr>
+                        <td><b>Order Total: </b></td>
+                        <td> {{ order_obj.total }} </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to
+                                    checkout</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        <div class="col-md-4 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your cart</span>
+                <span class="badge badge-secondary badge-pill"> {{ request.session.cart_items_count }} </span>
+            </h4>
+            <ul class="list-group mb-3">
+                {% for product in cart_obj.products.all %}
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0">{{ product }}</h6>
+                    </div>
+                    <span class="text-muted">₹{{ product.price }}</span>
+                </li>
+                {% endfor %}
+
+            </ul>
+
+            <ul class="list-group mb-3 py-2">
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Cart Total</span>
+                    <span>₹{{ cart_obj.total }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Shipping Cost</span>
+                    <span>₹{{ order_obj.shipping_cost }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (Rupees)</span>
+                    <strong>₹{{ order_obj.total }}</strong>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
-{% endif %}
+
+
+
 
 {% endblock %}
