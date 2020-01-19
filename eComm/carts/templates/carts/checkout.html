@@ -26,11 +26,11 @@
     <div class="col-12 col-md-6 mx-auto">
         <h3>Order id: {{ order_obj.order_id }} </h3>
         <h3>Cart Products: <small>{% for prod in cart_obj.products.all %} {{prod}}{% if not forloop.last %}, {% endif %}{% endfor %}</small> </h3>
-        <h3>Billing Address: {{ order_obj.billing_address }} </h3>
+        <h3>Billing Address: {{ order_obj.billing_address.get_address }} </h3>
         <h3>Cart Total: {{ cart_obj.total }} </h3>
         <h3>Shipping Cost: {{ order_obj.shipping_cost }} </h3>
         <h3>Order Total: {{ order_obj.total }} </h3>
-        <form method="POST">
+        <form method="POST"> {% csrf_token %}
             <button class="btn btn-success" type="submit">Submit</button>
         </form>
     </div>

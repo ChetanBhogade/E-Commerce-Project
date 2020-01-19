@@ -33,6 +33,9 @@ post_save.connect(post_save_email_receiver, sender=User)
 
 ###########################################################################################################
 
+class AddressManager(models.Manager):
+    pass
+
 class Address(models.Model):
     billing_profile  = models.ForeignKey(BillingProfile, null=True, on_delete=models.CASCADE)
     address_line1   = models.CharField(max_length=120)
@@ -42,7 +45,11 @@ class Address(models.Model):
     country         = models.CharField(max_length=120)
     pincode         = models.CharField(max_length=120)
 
+    objects = AddressManager()
+
     def __str__(self):
         return str(self.billing_profile)
 
+    def get_address(self):
+        return f"{self.address_line1} {self.address_line2}, {self.city}, {self.state}, {self.country}, {self.pincode}"
 

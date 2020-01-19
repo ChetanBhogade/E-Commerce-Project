@@ -71,6 +71,12 @@ def checkout_home(request):
                 del request.session['billing_address_id']
                 order_obj.save()
 
+        if request.method == 'POST':
+            if order_obj.check_done():
+                order_obj.mark_paid()
+                request.session['cart_items_count'] = 0
+                del request.session["cart_id"]
+                return redirect("cart:success")
 
 
     else:
@@ -88,49 +94,9 @@ def checkout_home(request):
 
 
 
+def checkout_success(request):
+    return render(request, "carts/success-checkout.html", {})
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def order_checkout(request):
-#     order_obj = None
-#     if request.user.is_authenticated:
-#         cart_obj = Cart.objects.new_or_get(request)
-#         if cart_obj is not None:
-#             if not (len(cart_obj.products.all()) == 0):
-#                 order_obj, created = Order.objects.new_or_get(cart_obj)
-#                 address_form = AddressForm()
-                
-
-
-
-
-#             else:
-#                 messages.warning(request, "Cart is empty now, Please add some products into cart for order.")
-#                 return redirect("cart:home")
-#     else:
-#         messages.warning(request, "Please Login. You cannot access this page!!!")
-#         return redirect("login")
-#     context = {
-#         "order_obj": order_obj,
-#         "cart_obj": cart_obj,
-#         "form": address_form
-#     }
-#     return render(request, "orders/checkout.html", context=context)
 

@@ -18,6 +18,11 @@ class OrderManager(models.Manager):
             created = True
         return obj, created
 
+STATUS_CHOICES = (
+    ('Created', 'Created'),
+    ('Shipped', 'Shipped'),
+    ('Paid', 'Paid')
+)
 
 class Order(models.Model):
     order_id        = models.CharField(max_length=50, primary_key=True)
@@ -26,6 +31,7 @@ class Order(models.Model):
     billing_address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True)
     shipping_cost   = models.IntegerField(default=10)
     total           = models.IntegerField(default=0)
+    status          = models.CharField(max_length=50, default='created', choices=STATUS_CHOICES)
     updated         = models.DateTimeField(auto_now=True)
     timestamp       = models.DateTimeField(auto_now_add=True)
 
@@ -41,6 +47,19 @@ class Order(models.Model):
         self.total = new_total
         self.save()
         return new_total
+
+    def check_done(self):
+        billing_profile = self.billing_profile
+        billing_address = self.billing_address
+        total = self.total
+        if billing_profile and billing_address and total > 0:
+            return True
+        return False
+
+    def mark_paid(self):
+        if self.check_done():
+            self.status = 'Paid'
+        return self.status
 
 
 
