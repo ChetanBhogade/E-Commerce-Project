@@ -35,17 +35,16 @@
 
                 <div class="d-block my-3">
                     <div class="custom-control custom-radio">
-                        <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked
-                            required>
+                        <input id="paypal" name="payment_method" value="Cash On Delivery" type="radio" class="custom-control-input" checked required>
+                        <label class="custom-control-label" for="paypal">Cash On Delivery</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input id="credit" name="payment_method" value="Credit card" type="radio" class="custom-control-input" required>
                         <label class="custom-control-label" for="credit">Credit card</label>
                     </div>
                     <div class="custom-control custom-radio">
-                        <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                        <input id="debit" name="payment_method" value="Debit card" type="radio" class="custom-control-input" required>
                         <label class="custom-control-label" for="debit">Debit card</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
-                        <label class="custom-control-label" for="paypal">PayPal</label>
                     </div>
                 </div>
 
@@ -74,6 +73,10 @@
                     <tr>
                         <td><b>Order Total: </b></td>
                         <td> {{ order_obj.total }} </td>
+                    </tr>
+                    <tr>
+                        <td><b>Payment Method: </b></td>
+                        <td> {{ order_obj.payment_method }} </td>
                     </tr>
                     <tr>
                         <td colspan="2">

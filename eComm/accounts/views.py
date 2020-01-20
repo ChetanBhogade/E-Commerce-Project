@@ -6,6 +6,8 @@ from django.contrib import messages
 from .forms import LoginForm, RegisterForm
 from accounts.forms import AddressForm
 from accounts.models import BillingProfile
+from orders.models import Order
+from carts.models import Cart
 # Create your views here.
 
 
@@ -64,8 +66,14 @@ def address_create_view(request):
         print(request.POST)
         instance = form.save(commit=False)
         billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request=request)
+        cart_obj = Cart.objects.new_or_get(request=request)
 
         if billing_profile is not None:
+            order_obj, order_obj_created = Order.objects.new_or_get(cart_obj=cart_obj, billing_profile=billing_profile)
+            payment_method = request.POST.get("payment_method", None)
+            if payment_method:
+                order_obj.payment_method = payment_method
+                order_obj.save()
             instance.billing_profile = billing_profile
             instance.save()
             request.session['billing_address_id'] = instance.id

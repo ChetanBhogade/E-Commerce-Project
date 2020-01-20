@@ -24,6 +24,12 @@ STATUS_CHOICES = (
     ('Paid', 'Paid')
 )
 
+PAYMENT_METHOD_CHOICES = (
+    ('Credit card', 'Credit card'),
+    ('Debit card', 'Debit card'),
+    ('Cash on Delivery', 'Cash on Delivery'),
+)
+
 class Order(models.Model):
     order_id        = models.CharField(max_length=50, primary_key=True)
     billing_profile = models.ForeignKey(BillingProfile, on_delete=models.CASCADE, null=True, blank=True)
@@ -31,6 +37,7 @@ class Order(models.Model):
     billing_address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True)
     shipping_cost   = models.IntegerField(default=10)
     total           = models.IntegerField(default=0)
+    payment_method  = models.CharField(max_length=50, default='Cash on Delivery', choices=PAYMENT_METHOD_CHOICES)
     status          = models.CharField(max_length=50, default='Created', choices=STATUS_CHOICES)
     updated         = models.DateTimeField(auto_now=True)
     timestamp       = models.DateTimeField(auto_now_add=True)
@@ -59,6 +66,7 @@ class Order(models.Model):
     def mark_paid(self):
         if self.check_done():
             self.status = 'Paid'
+            self.save()
         return self.status
 
 
