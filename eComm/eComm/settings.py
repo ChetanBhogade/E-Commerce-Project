@@ -141,3 +141,12 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
 MESSAGE_TAGS = {
     messages.ERROR : 'danger',
 }
+
+
+# For sending an emails to customer
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'chetanbhogade999@gmail.com'
+EMAIL_HOST_PASSWORD = 'Bhogade@1999'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
