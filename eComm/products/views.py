@@ -3,6 +3,7 @@ from django.contrib import messages
 
 from .models import Product
 from carts.models import Cart
+from analytics.signals import object_viewed_signal
 # Create your views here.
 
 def product_list(request):
@@ -24,6 +25,8 @@ def product_detail(request, *args, **kwargs):
         "product": instance,
         "cart": cart_obj
     }
+
+    object_viewed_signal.send(instance.__class__, instance=instance, request=request)
     return render(request, "products/product_detail.html", context=context)
     
 
