@@ -18,13 +18,16 @@ def contact_page(request):
     content = request.POST.get('content')
     mail = request.POST.get('email', 'chetan.bhogade3899@gmail.com')
     if contact_form.is_valid():
-        subject = 'Thank You from Chetan eComm'
-        message = f'Welcome to the eComm Website. This is my website build upon the Python Django Framework.\nYour message is : -  \n{content}'
-        from_email = 'chetanbhogade999@gmail.com'
+        subject = 'Thank You from eComm Website - Chetan'
+        message = f'Welcome to the eComm Website. This eCommerce website is build upon the Python Django Framework.\nYour message is : -  \n{content}'
+        from_email = 'chetan.bhogade321@yahoo.com' 
         to_list = [mail]
 
-        send_mail(subject, message, from_email, to_list, fail_silently=False)
+        try:
+            send_mail(subject, message, from_email, to_list, fail_silently=False)
+            print('Contact Page mail send successfully.')
+        except Exception as e:
+            print(f"Something Went Wrong... Error is : {e}")
 
         messages.success(request, "Your form is successfully submitted.")
-        print(contact_form.cleaned_data)
     return render(request, 'contact_page.html', context=context)
