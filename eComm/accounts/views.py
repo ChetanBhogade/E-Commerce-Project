@@ -11,6 +11,10 @@ from carts.models import Cart
 # Create your views here.
 
 
+def account_home_page(request):
+    context = {}
+    return render(request, "accounts/account-home.html", context=context)
+
 def login_page(request):
     form = LoginForm(request.POST or None)
     context = {
@@ -54,7 +58,7 @@ def logout_page(request):
         print("User logged out : ", request.user)
         messages.success(request, "Logged Out ")
         logout(request)
-        return redirect("/login")
+        return redirect("account:login")
     else:
         messages.error(request, "Logging out failed...")
 
