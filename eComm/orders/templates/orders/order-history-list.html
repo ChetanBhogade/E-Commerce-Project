@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %} Order History {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Your Order History: </h1>
+    <hr>
+
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Order ID</th>
+            <th scope="col">Status</th>
+            <th scope="col">Ordered Products</th>
+            <th scope="col">Date of Purchase</th>
+            <th scope="col">Total Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in order_obj %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ order.order_id }} </td>
+            <td>{{ order.status }} </td>
+            <td>{% for prod in  order.cart.products.all %} {{ prod }} {% if not forloop.last %}, {% endif %}{% endfor %} </td>
+            <td>{{ order.updated|date }} </td>
+            <td>{{ order.total }} </td>
+          </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
+    
+</div>
+
+{% endblock %}
