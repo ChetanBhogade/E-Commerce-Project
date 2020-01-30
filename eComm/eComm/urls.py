@@ -28,14 +28,15 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_page, name='home'),
     path('contact/', contact_page, name='contact'),
-    path('login/', login_page, name='login'),
-    path('register/', register_page, name='register'),
-    path('logout/', logout_page, name='logout'),
+    # path('login/', login_page, name='login'),
+    # path('register/', register_page, name='register'),
+    # path('logout/', logout_page, name='logout'),
     path('search/', search_product, name='search'),
-    path('address/create/view/', address_create_view, name='address_create_view'),
+    # path('address/create/view/', address_create_view, name='address_create_view'),
     path('products/', include('products.urls', namespace='products')),
     path('cart/', include('carts.urls', namespace='cart')),
     path('order/', include('orders.urls', namespace='order')),
+    path('account/', include('accounts.urls', namespace='account')),
 
 ]
 

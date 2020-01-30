@@ -44,7 +44,7 @@ def cart_update(request):
             cart_obj.products.add(product_obj)
     else:
         messages.warning(request, "Please Login, before buying a product.")
-        return redirect("login")
+        return redirect("account:login")
 
     request.session['cart_items_count'] = cart_obj.products.all().count()
         
@@ -81,7 +81,7 @@ def checkout_home(request):
 
     else:
         messages.warning(request, "Please login, you cannot access this page.")
-        return redirect("login")
+        return redirect("account:login")
 
 
     context = {

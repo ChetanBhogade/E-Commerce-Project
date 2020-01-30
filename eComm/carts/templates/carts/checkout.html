@@ -18,7 +18,7 @@
         <div class="col-md-8 border p-4">
             <h4 class="mb-3">Billing Address</h4>
             <hr>
-            <form method="POST" action="{% url 'address_create_view' %}">
+            <form method="POST" action="{% url 'account:address_create_view' %}">
                 {% csrf_token %}
 
                 {{ address_form.as_p }}
