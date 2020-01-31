@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %} User Product Histor {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>User Product Histor</h1>
+    <hr>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">User</th>
+                <th scope="col">Viewed Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in qs %}
+            <tr>
+                <th>{{ forloop.counter }}</th>
+                <td>{{ i.content_object }} </td>
+                <td>{{ i.user }} </td>
+                <td>{{ i.timestamp|date }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}

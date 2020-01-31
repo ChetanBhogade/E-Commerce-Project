@@ -5,6 +5,8 @@
 {% url 'account:logout' as logout_url %}
 {% url 'products:product-list' as products_url %}
 {% url 'cart:home' as cart_url %}
+{% url 'account:account-home' as account_home_url %}
+{% url 'account:user_history' as user_history_url %}
 
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top mb-3 bg-dark py-1">
     <div class="container">
@@ -26,9 +28,18 @@
                     <a class="nav-link" href="{{ products_url }}">Products</a>
                 </li>
                 {% if request.user.is_authenticated %}
-                    <li class="nav-item {% if request.path == logout_url %} active {% endif %}">
-                        <a class="nav-link" href="{{ logout_url }}">Logout: {{ request.user }}</a>
-                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Account
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item {% if request.path == account_home_url %} active {% endif %}" href="{% url 'account:account-home' %}">Account Home</a>
+                          <a class="dropdown-item {% if request.path == contact_url %} active {% endif %}" href="{{ contact_url }}">Support</a>
+                          <a class="dropdown-item {% if request.path == user_history_url %} active {% endif %}" href="{{ user_history_url }}">History</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{{ logout_url }}">Logout: {{ request.user }}</a>
+                        </div>
+                      </li>
                 {% else %}
                     <li class="nav-item {% if request.path == login_url %} active {% endif %}">
                         <a class="nav-link" href="{{ login_url }}">Login</a>

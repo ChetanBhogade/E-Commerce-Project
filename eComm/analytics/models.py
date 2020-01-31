@@ -23,7 +23,10 @@ class ObjectViewed(models.Model):
     objects = ObjectViewedManager()
 
     def __str__(self):
-        return f"{self.content_object} : - Viewed on {self.timestamp}"
+        return f"{self.content_object}"[:20]#" : - Viewed on {self.timestamp}"
+
+    class Meta:
+        ordering = ['-timestamp']
 
 
 def object_viewed_signal_receiver(sender, instance, request, *args, **kwargs):
