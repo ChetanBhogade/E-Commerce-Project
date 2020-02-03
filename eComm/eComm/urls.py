@@ -21,18 +21,13 @@ from django.contrib import admin
 from django.urls import path, include
 
 from .views import home_page, contact_page
-from accounts.views import login_page, register_page, logout_page, address_create_view
 from products.views import search_product 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_page, name='home'),
     path('contact/', contact_page, name='contact'),
-    # path('login/', login_page, name='login'),
-    # path('register/', register_page, name='register'),
-    # path('logout/', logout_page, name='logout'),
     path('search/', search_product, name='search'),
-    # path('address/create/view/', address_create_view, name='address_create_view'),
     path('products/', include('products.urls', namespace='products')),
     path('cart/', include('carts.urls', namespace='cart')),
     path('order/', include('orders.urls', namespace='order')),

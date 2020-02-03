@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 
+{% block title %} Account Home {% endblock %}
+
 {% block content %}
 
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h2>Account : {{ request.user }}</h2>
+            <h2>Account : {% if request.user.first_name %} {{ request.user.first_name }} {{ request.user.last_name }} {% else %} {{ request.user }} {% endif %}</h2>
             <hr>
         </div>
 
@@ -37,7 +39,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Account Details</h5>
                     <div class="list-group">
-                        <a href="{% url 'contact' %}" class="list-group-item">Update Details</a>
+                        <a href="{% url 'account:update_profile' %}" class="list-group-item">Update Your Profile</a>
                     </div>
                 </div>
             </div>

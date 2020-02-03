@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, UpdateProfileForm
 from accounts.forms import AddressForm
 from accounts.models import BillingProfile
 from orders.models import Order
@@ -86,3 +86,22 @@ def address_create_view(request):
             return redirect("cart:checkout")
 
     return redirect("cart:checkout")
+
+
+def update_profile(request):
+    if request.user.is_authenticated:
+        update_form = UpdateProfileForm(request.POST or None, instance=request.user)
+        if update_form.is_valid():
+            profile_instance = update_form.save(commit=False)
+            profile_instance.first_name = request.POST.get('first_name')
+            profile_instance.last_name = request.POST.get('last_name')
+            profile_instance.save()
+            return redirect("account:account-home")
+    else:
+        messages.warning(request, "Please Login. You cannot access this page!")
+        return redirect("account:login")
+
+    context = {
+        'update_form': update_form,
+    }
+    return render(request, "accounts/account-profile.html", context=context)

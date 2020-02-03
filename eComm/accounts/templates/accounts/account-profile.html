@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %} Account Profile: {{ request.user }} {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="text-center form-group mb-4">
+            <h1 class="h2 mb-3 font-weight-normal">Update Your Account Details</h1>
+        </div>
+        <div class="col-sm-5 col-12 form-group mx-auto">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" value="{{ request.user.username }}" disabled
+                aria-describedby="UserHelp">
+                <small id="UserHelp" class="form-text text-muted">You cannot edit this field.</small>
+            </div>
+            {{ update_form.as_p }}
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="text" class="form-control" id="email" value="{{ request.user.email }}" disabled
+                    aria-describedby="emailHelp">
+                <small id="emailHelp" class="form-text text-muted">You cannot edit this field.</small>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Update</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
