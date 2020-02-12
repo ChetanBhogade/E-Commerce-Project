@@ -24,6 +24,12 @@
 
                         <p class="lead h6 mb-0"><b>Category: </b></p>
                         <p> {{ product.category }}</p>
+                        <p class="mb-0"><b>Views: </b>
+                                {% for key, value in prod_views_dict.items %}
+                                    {% if key == product.title %}
+                                        {{ value }}
+                                    {% endif %}
+                                {% endfor %} </p>
 
                         <p class="lead">
                             <p class="font-weight-bold h5">Price: </p>

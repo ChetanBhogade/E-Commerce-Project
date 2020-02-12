@@ -21,3 +21,11 @@ def user_product_history(request):
         "qs": qs,
     }
     return render(request, "analytics/user-product-history.html", context=context)
+
+
+def product_total_views():
+    c_type = ContentType.objects.get_for_model(Product)
+    qs = ObjectViewed.objects.filter(content_type=c_type)
+    prod_list = [x.content_object.title for x in qs]
+    prod_views_dict = {i:prod_list.count(i) for i in prod_list}
+    return prod_views_dict

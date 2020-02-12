@@ -1,28 +1,26 @@
 {% extends 'base.html' %}
 
-{% block title %} User Product History {% endblock %}
+{% block title %} Product Total Views {% endblock %}
 
 {% block content %}
 
 <div class="container">
-    <h1>User Product History</h1>
+    <h1>Product Total Views</h1>
     <hr>
     <table class="table">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Product Name</th>
-                <th scope="col">User</th>
-                <th scope="col">Viewed Time</th>
+                <th scope="col">Total Views</th>
             </tr>
         </thead>
         <tbody>
-            {% for i in qs %}
+            {% for prod, count in prod_views_dict.items %}
             <tr>
                 <th>{{ forloop.counter }}</th>
-                <td>{{ i.content_object }} </td>
-                <td>{{ i.user }} </td>
-                <td>{{ i.timestamp|date }} </td>
+                <td>{{ prod }} </td>
+                <td>{{ count }} </td>
             </tr>
             {% endfor %}
         </tbody>

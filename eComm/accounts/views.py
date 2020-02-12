@@ -96,6 +96,7 @@ def update_profile(request):
             profile_instance.first_name = request.POST.get('first_name')
             profile_instance.last_name = request.POST.get('last_name')
             profile_instance.save()
+            messages.success(request, "You profile details updated successfully.")
             return redirect("account:account-home")
     else:
         messages.warning(request, "Please Login. You cannot access this page!")

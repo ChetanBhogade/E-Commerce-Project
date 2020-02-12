@@ -4,6 +4,7 @@ from django.contrib import messages
 from .models import Product
 from carts.models import Cart
 from analytics.signals import object_viewed_signal
+from analytics.views import product_total_views
 # Create your views here.
 
 def product_list(request):
@@ -23,7 +24,8 @@ def product_detail(request, *args, **kwargs):
         raise Http404("Product Doesn't Exists.")
     context = {
         "product": instance,
-        "cart": cart_obj
+        "cart": cart_obj,
+        "prod_views_dict": product_total_views()
     }
 
     object_viewed_signal.send(instance.__class__, instance=instance, request=request)
