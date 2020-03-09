@@ -13,6 +13,8 @@
     <!-- Font-awesome CSS CDN  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
 
+    <!-- Custom CSS  -->
+
     <title>{% block title %} {% endblock %}</title>
 </head>
 
@@ -39,11 +41,19 @@
     <!-- footer  -->
     {% include 'footer.html' %}
 
+
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="{% static 'bootstrap/js/jquery-3.4.1.slim.min.js' %}"></script>
+    <!-- <script src="{% static 'bootstrap/js/jquery-3.4.1.slim.min.js' %}"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- Custom JavaScript -->
+    {% block JavaScript %}   {% endblock %}
     
 </body>
 

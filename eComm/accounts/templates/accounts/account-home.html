@@ -7,8 +7,12 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h2>Account : {% if request.user.first_name %} {{ request.user.first_name }} {{ request.user.last_name }} {% else %} {{ request.user }} {% endif %}</h2>
+            <h2>Account : {% if request.user.first_name %} {{ request.user.first_name }} {{ request.user.last_name }}
+                {% else %} {{ request.user }} {% endif %}</h2>
             <hr>
+            {% if request.user.is_superuser %}
+            <h2 class="pb-5">Your Superuser: - You Can Now Change everything</h2>
+            {% endif %}
         </div>
 
         <div class="col-12 col-md-3 my-3">
@@ -67,19 +71,19 @@
             </div>
         </div>
 
+        {% if request.user.is_superuser %}
         <div class="col-12 col-md-3 my-3 ">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Analytics</h5>
                     <div class="list-group">
-                        <a href="{% url 'account:user_history' %}" class="list-group-item">Product Views</a>
-                        <a href="{% url 'account:user_history' %}" class="list-group-item">Ordered products Views</a>
-                        <a href="{% url 'account:user_history' %}" class="list-group-item">Your views for products</a>
-                        <a href="{% url 'account:user_history' %}" class="list-group-item">You searched for these products</a>
+                        <a href="{% url 'sales-analytics' %}" class="list-group-item">Sales</a>
                     </div>
                 </div>
             </div>
         </div>
+        {% endif %}
+
     </div>
 </div>
 

@@ -22,6 +22,7 @@ from django.urls import path, include
 
 from .views import home_page, contact_page
 from products.views import search_product 
+from analytics.views import sales_view, sales_ajax_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +33,8 @@ urlpatterns = [
     path('cart/', include('carts.urls', namespace='cart')),
     path('order/', include('orders.urls', namespace='order')),
     path('account/', include('accounts.urls', namespace='account')),
+    path('analytics/sales/', sales_view, name="sales-analytics"),
+    path('analytics/sales/data/', sales_ajax_view, name="sales-analytics-data"),
 
 ]
 
