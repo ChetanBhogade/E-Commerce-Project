@@ -18,7 +18,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Sales',
+                        label: 'This Week Sales',
                         data: data,
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(55, 165, 856, 2555)',
@@ -189,7 +189,7 @@
             <hr>
         </div>
         <div class="col-md-8 col-12 mx-auto">
-            <h2>Recent Orders: (Total: {{ order_total }} )</h2>
+            <h2>This Week Orders: (Total: {{ this_week_orders_total }} )</h2>
             <hr>
             <table class="table">
                 <thead>
@@ -202,7 +202,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for qs in all_orders %}
+                    {% for qs in this_week_orders %}
                     <tr>
                         <td> {{ forloop.counter }} </td>
                         <td> {{ qs.order_id }} </td>

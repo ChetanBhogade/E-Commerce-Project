@@ -44,6 +44,9 @@ class Order(models.Model):
 
     objects = OrderManager()
 
+    class Meta:
+        ordering = ['-updated']
+
     def __str__(self):
         return self.order_id
 
