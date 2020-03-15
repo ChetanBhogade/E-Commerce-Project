@@ -22,7 +22,7 @@ from django.urls import path, include
 
 from .views import home_page, contact_page
 from products.views import search_product 
-from analytics.views import sales_view, sales_ajax_view
+from analytics.views import sales_view, sales_ajax_view, last_week_sales_view, three_week_sales_view, four_week_sales_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,7 +33,10 @@ urlpatterns = [
     path('cart/', include('carts.urls', namespace='cart')),
     path('order/', include('orders.urls', namespace='order')),
     path('account/', include('accounts.urls', namespace='account')),
-    path('analytics/sales/', sales_view, name="sales-analytics"),
+    path('analytics/sales/this-week', sales_view, name="this-week-sales-analytics"),
+    path('analytics/sales/last-week', last_week_sales_view, name="last-week-sales-analytics"),
+    path('analytics/sales/three-weeks-ago', three_week_sales_view, name="three-week-sales-analytics"),
+    path('analytics/sales/four-week-ago', four_week_sales_view, name="four-week-sales-analytics"),
     path('analytics/sales/data/', sales_ajax_view, name="sales-analytics-data"),
 
 ]
