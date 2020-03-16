@@ -12,6 +12,8 @@ import random
 import datetime
 # Create your views here.
 
+
+# Specific User History Page: - Only For customers
 def user_product_history(request):
     if request.user.is_authenticated:
         c_type = ContentType.objects.get_for_model(Product)
@@ -40,7 +42,7 @@ def product_total_views():
 
 
 
-
+# Calculating and adjusting the datetime fields for Orders analytics views
 def by_range(start_date, end_date=None):
     if end_date is None:
         return Order.objects.filter(updated__gte=start_date)
@@ -61,6 +63,8 @@ def weeks_age_sales(no_of_weeks):
         data.append(total)
     return labels, data
 
+
+# Getting different pages for different analytics pages 
 def sales_view(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
@@ -152,6 +156,42 @@ def four_week_sales_view(request):
 
 
 
+# For Product analytics page 
+def product_analytics_view(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            c_type = ContentType.objects.get_for_model(Product)
+            qs = ObjectViewed.objects.filter(content_type=c_type)
+            test_list = [x.content_object.title for x in qs]
+            my_dict = {i:test_list.count(i) for i in test_list}
+            print(f"From View: dict: {my_dict}")
+
+        else:
+            messages.error(request, "You cannot access this page. You are not an admin user.")
+            return redirect("account:account-home")
+    else:
+        messages.warning(request, "You cannot access this page. Please Login!")
+        return redirect("account:login")
+    context = {
+        "qs": qs, 
+        "product_list": my_dict,
+    }
+    return render(request, "analytics/product-analytics.html", context=context)
+
+def product_ajax_details():
+
+    c_type = ContentType.objects.get_for_model(Product)
+    qs = ObjectViewed.objects.filter(content_type=c_type)
+    test_list = [x.content_object.title for x in qs]
+    my_dict = {i:test_list.count(i) for i in test_list}
+
+    labels = [i for i in my_dict.keys()]
+    data = [i for i in my_dict.values()]
+    return labels, data
+
+
+
+# Grabbing the all ajax calls from chart.js to render the chart properly
 def sales_ajax_view(request):
     data = {}
     if request.user.is_superuser:
@@ -164,6 +204,10 @@ def sales_ajax_view(request):
             labels, totals = weeks_age_sales(no_of_weeks=3)
         elif request.GET.get("type") == "fourWeek":
             labels, totals = weeks_age_sales(no_of_weeks=4)
+        elif request.GET.get("type") == "productAnalytics":
+            labels, totals = product_ajax_details()
+        else:
+            labels, totals = [], []
 
         data['labels'] = labels[::-1] # ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
         data['data'] = totals[::-1]
@@ -174,3 +218,4 @@ def sales_ajax_view(request):
         return redirect("account:login")
 
     return JsonResponse(data=data)
+
