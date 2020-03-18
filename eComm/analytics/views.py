@@ -3,6 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 from django.http import JsonResponse
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 from products.models import Product
 from .models import ObjectViewed
@@ -63,16 +64,22 @@ def weeks_age_sales(no_of_weeks):
         data.append(total)
     return labels, data
 
+def get_sales_data(start_date):
+    list_of_orders = []
+    for day in range(start_date, start_date+7):
+        start_date = timezone.now() - datetime.timedelta(days=day)
+        qs = Order.objects.filter(updated__day=start_date.day, updated__month=start_date.month)
+        for i in qs:
+            list_of_orders.append(i)
+    return list_of_orders
+
+
 
 # Getting different pages for different analytics pages 
 def sales_view(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            start_date = timezone.now() - datetime.timedelta(days=7)
-            qs = by_range(start_date=start_date)
-            total = 0
-            for i in qs:
-                total += i.total
+            qs = get_sales_data(start_date=0)
 
         else:
             messages.error(request, "You cannot access this page. You are not an admin user.")
@@ -82,19 +89,14 @@ def sales_view(request):
         return redirect("account:login")
     context = {
         'all_orders': qs,
-        'order_total': total,
+        'order_total': 0,
     }
     return render(request, "analytics/this-week-sales.html", context=context)
 
 def last_week_sales_view(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            start_date = timezone.now() - datetime.timedelta(days=14)
-            end_date = timezone.now() - datetime.timedelta(days=7)
-            qs = by_range(start_date=start_date, end_date=end_date)
-            total = 0
-            for i in qs:
-                total += i.total
+            qs = get_sales_data(start_date=7)
 
         else:
             messages.error(request, "You cannot access this page. You are not an admin user.")
@@ -104,7 +106,7 @@ def last_week_sales_view(request):
         return redirect("account:login")
     context = {
         'all_orders': qs,
-        'order_total': total,
+        'order_total': 0,
     }
     return render(request, "analytics/this-week-sales.html", context=context)
 
@@ -112,12 +114,7 @@ def last_week_sales_view(request):
 def three_week_sales_view(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            start_date = timezone.now() - datetime.timedelta(days=3*7)
-            end_date = timezone.now() - datetime.timedelta(days=2*7)
-            qs = by_range(start_date=start_date, end_date=end_date)
-            total = 0
-            for i in qs:
-                total += i.total
+            qs = get_sales_data(start_date=14)
 
         else:
             messages.error(request, "You cannot access this page. You are not an admin user.")
@@ -127,7 +124,7 @@ def three_week_sales_view(request):
         return redirect("account:login")
     context = {
         'all_orders': qs,
-        'order_total': total,
+        'order_total': 0,
     }
     return render(request, "analytics/this-week-sales.html", context=context)
 
@@ -135,12 +132,8 @@ def three_week_sales_view(request):
 def four_week_sales_view(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            start_date = timezone.now() - datetime.timedelta(days=5*7)
-            end_date = timezone.now() - datetime.timedelta(days=3*7)
-            qs = by_range(start_date=start_date, end_date=end_date)
-            total = 0
-            for i in qs:
-                total += i.total
+
+            qs = get_sales_data(start_date=21)
 
         else:
             messages.error(request, "You cannot access this page. You are not an admin user.")
@@ -150,7 +143,7 @@ def four_week_sales_view(request):
         return redirect("account:login")
     context = {
         'all_orders': qs,
-        'order_total': total,
+        'order_total': 0,
     }
     return render(request, "analytics/this-week-sales.html", context=context)
 
@@ -190,6 +183,39 @@ def product_ajax_details():
     return labels, data
 
 
+# For Customer Analytics Page
+def get_user_data():
+    all_users = User.objects.all()
+    user_name = []
+    user_total = []
+    for user in all_users:
+        qs = Order.objects.filter(status='Paid', billing_profile__user = user)
+        total = 0
+        for i in qs:
+            total += i.total
+        user_name.append(str(user))
+        user_total.append(total)
+    return user_name, user_total
+
+
+def customers_analytics_view(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            user_name, user_total = get_user_data()
+            data = dict(zip(user_name, user_total))
+
+        else:
+            messages.error(request, "You cannot access this page. You are not an admin user.")
+            return redirect("account:account-home")
+    else:
+        messages.warning(request, "You cannot access this page. Please Login!")
+        return redirect("account:login")
+    context = {
+        "cust_data": data
+    }
+    return render(request, "analytics/user-analytics.html", context=context)
+
+
 
 # Grabbing the all ajax calls from chart.js to render the chart properly
 def sales_ajax_view(request):
@@ -201,11 +227,13 @@ def sales_ajax_view(request):
         elif request.GET.get("type") == "lastWeek":
             labels, totals = weeks_age_sales(no_of_weeks=1)
         elif request.GET.get("type") == "threeWeek":
-            labels, totals = weeks_age_sales(no_of_weeks=3)
+            labels, totals = weeks_age_sales(no_of_weeks=2)
         elif request.GET.get("type") == "fourWeek":
-            labels, totals = weeks_age_sales(no_of_weeks=4)
+            labels, totals = weeks_age_sales(no_of_weeks=3)
         elif request.GET.get("type") == "productAnalytics":
             labels, totals = product_ajax_details()
+        elif request.GET.get("type") == "UserAnalytics":
+            labels, totals = get_user_data()
         else:
             labels, totals = [], []
 
