@@ -1,12 +1,29 @@
 from django.shortcuts import render
 from django.contrib import messages
+from django.contrib.contenttypes.models import ContentType
 from django.core.mail import send_mail
 
 from .forms import ContactForm
+from products.models import Product
+from analytics.models import ObjectViewed
 # Create your views here.
 
 def home_page(request):
-    return render(request, 'home_page.html', {})
+    qs = Product.objects.all()[::-1][:9]
+
+    c_type = ContentType.objects.get_for_model(Product)
+    prods_qs = ObjectViewed.objects.filter(content_type=c_type)
+    test_list = [x.content_object for x in prods_qs]
+    my_dict = {i:test_list.count(i) for i in test_list}
+    popular_product = max(my_dict, key=my_dict.get)
+
+    context = {
+        "Products": qs,
+        "popular_product": popular_product
+    }
+    
+
+    return render(request, 'home_page.html', context=context)
 
 def contact_page(request):
     contact_form = ContactForm(request.POST or None)

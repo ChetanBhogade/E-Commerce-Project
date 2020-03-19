@@ -157,7 +157,7 @@ def product_analytics_view(request):
             qs = ObjectViewed.objects.filter(content_type=c_type)
             test_list = [x.content_object.title for x in qs]
             my_dict = {i:test_list.count(i) for i in test_list}
-            print(f"From View: dict: {my_dict}")
+            # print(f"From View: dict: {my_dict}")
 
         else:
             messages.error(request, "You cannot access this page. You are not an admin user.")
