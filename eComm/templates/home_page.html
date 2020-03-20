@@ -124,7 +124,7 @@
 		</ol>
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<img src="{% static 'imgs/Echo-Dot.jpg' %}" class="d-block w-100" alt="...">
+				<img src="{% static 'imgs/Echo-Dot.jpg' %}" class="d-block w-100">
 				<div class="container">
 					<div class="carousel-caption text-left">
 						<h1>eComm - Shopping rediscovered.</h1>
@@ -136,18 +136,17 @@
 				</div>
 			</div>
 			<div class="carousel-item">
-				<img src="{% static 'imgs/carousal2.jpg' %}" class="d-block w-100" alt="...">
+				<img src="{% static 'imgs/carousal2.jpg' %}" class="d-block w-100">
 				<div class="container">
 					<div class="carousel-caption">
 						<h1>The greatest journey of online shop.</h1>
 						<p>“I love shopping. There is a little bit of magic found in buying something new. It is instant
 							gratification, a quick fix.”</p>
-						<!-- <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p> -->
 					</div>
 				</div>
 			</div>
 			<div class="carousel-item">
-				<img src="{% static 'imgs/FT_Allnighters_DB.jpg' %}" class="d-block w-100" alt="...">
+				<img src="{% static 'imgs/FT_Allnighters_DB.jpg' %}" class="d-block w-100">
 				<div class="container">
 					<div class="carousel-caption text-right">
 						<p><a class="btn btn-light btn-lg " href="/products/fastrack-all-nighters-white/" role="button">View Product</a></p>
@@ -166,17 +165,9 @@
 	</div>
 
 
-	<!-- Marketing messaging and featurettes
-	================================================== -->
-	<!-- Wrap the rest of the page in another container to center all the content. -->
-
 	<div class="container marketing">
 
-
-		<!-- <hr class="featurette-divider"> -->
-
-
-		<!-- My example -->
+		<!-- My info section -->
 		<section>
 			<div class="container">
 				<div class="row shadow p-3 mb-5 bg-white rounded">
@@ -208,7 +199,7 @@
 			</div>
 		</section>
 
-		<!-- End My example -->
+		<!-- End My Info Section -->
 
 		<hr class="featurette-divider">
 
@@ -228,9 +219,8 @@
 							<p><b>Price:</b> ₹ {{ prod.price }}</p>
 							<div class="d-flex justify-content-between align-items-center">
 								<div class="btn-group">
-									<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+									<p><a class="btn btn-sm btn-outline-secondary" href="{{ prod.get_absolute_url }}" role="button">View Product</a></p>
 								</div>
-								<small class="text-muted">9 mins</small>
 							</div>
 						</div>
 					</div>
