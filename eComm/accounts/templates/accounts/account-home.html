@@ -6,13 +6,21 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 d-flex flex-wrap">
             <h2>Account : {% if request.user.first_name %} {{ request.user.first_name }} {{ request.user.last_name }}
                 {% else %} {{ request.user }} {% endif %}</h2>
-            <hr>
             {% if request.user.is_superuser %}
-            <h2 class="pb-5">Your Superuser: - You Can Now Change everything</h2>
+            <div class="btn-toolbar mb-2 mb-md-0 ml-auto">
+                <button type="button" class="btn btn-sm btn-outline-secondary ">
+                    <span data-feather="calendar"></span>
+                    Superuser Account - Admin <i class="fas fa-user-cog fa-lg ml-1"></i>
+                </button>
+            </div>
             {% endif %}
+        </div>
+
+        <div class="col-12">
+            <hr>
         </div>
 
         <div class="col-12 col-md-3 my-3">
@@ -31,8 +39,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Billing</h5>
                     <div class="list-group">
-                        <a href="{% url 'account:order_history' %}" class="list-group-item">Orders</a>
-                        <a href="{% url 'contact' %}" class="list-group-item">Addresses</a>
+                        <a href="{% url 'account:order_history' %}" class="list-group-item">Recent Orders</a>
                     </div>
                 </div>
             </div>
@@ -49,17 +56,6 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-3 my-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Preferences</h5>
-                    <div class="list-group">
-                        <a href="{% url 'contact' %}" class="list-group-item">Email Notifications</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="col-12 col-md-3 my-3 ">
             <div class="card">
                 <div class="card-body">
@@ -71,13 +67,18 @@
             </div>
         </div>
 
+        <div class="col-12">
+            <hr>
+        </div>
+
         {% if request.user.is_superuser %}
-        <div class="col-12 col-md-3 my-3 ">
+        <div class="col-12 col-md-3 my-3">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Analytics</h5>
                     <div class="list-group">
                         <a href="{% url 'this-week-sales-analytics' %}" class="list-group-item">Sales</a>
+                        <a href="{% url 'product-advertisement' %}" class="list-group-item">Advertise Product</a>
                     </div>
                 </div>
             </div>

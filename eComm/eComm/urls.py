@@ -29,7 +29,8 @@ from analytics.views import (
     three_week_sales_view, 
     four_week_sales_view,
     product_analytics_view, 
-    customers_analytics_view
+    customers_analytics_view, 
+    advertise_product_view
 )
 
 urlpatterns = [
@@ -48,6 +49,7 @@ urlpatterns = [
     path('analytics/sales/data/', sales_ajax_view, name="sales-analytics-data"),
     path('analytics/sales/products/', product_analytics_view, name="product-analytics"),
     path('analytics/sales/customer/', customers_analytics_view, name="customer-analytics"),
+    path('analytics/sales/product-advertisement/', advertise_product_view, name="product-advertisement"),
 
 ]
 

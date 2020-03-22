@@ -1,5 +1,5 @@
 <style>
-    a {
+    .footer-link {
         color: white;
     }
 
@@ -9,7 +9,7 @@
         color: white;
     }
 
-    hr {
+    #footer-hr {
         background-color: white;
     }
 </style>
@@ -25,12 +25,12 @@
                 <div>
                     <h3>eComm Website</h3>
 
-                    <p class="footer-links">
-                        <a href="{% url 'home' %}">Home</a>
+                    <p>
+                        <a class="footer-link" href="{% url 'home' %}">Home</a>
                         -
-                        <a href="{% url 'contact' %}">Contact</a>
+                        <a class="footer-link" href="{% url 'contact' %}">Contact</a>
                         -
-                        <a href="{% url 'products:product-list' %}">Products</a>
+                        <a class="footer-link" href="{% url 'products:product-list' %}">Products</a>
                     </p>
 
                     <p>eComm Website &copy; 2020</p>
@@ -62,7 +62,7 @@
                         <i class="fa fa-envelope fa-lg"></i>
                     </div>
                     <div class="col-8 text-left">
-                        <p><a href="mailto:chetanbhogade999@gmail.com">chetanbhogade999@gmail.com</a></p>
+                        <p><a class="footer-link" href="mailto:chetanbhogade999@gmail.com">chetanbhogade999@gmail.com</a></p>
                     </div>
                 </div>
 
@@ -76,10 +76,10 @@
                             Anything.</u></i></p>
 
                 <div>
-                    <a href="https://www.facebook.com/chetan.bhogade.3"><i class="fab fa-facebook-f fa-lg p-1"></i></a>
-                    <a href="https://twitter.com/BhogadeChetan"><i class="fab fa-twitter fa-lg p-1"></i></a>
-                    <a href="https://www.instagram.com/chetan_bhogade/"><i class="fab fa-instagram fa-lg p-1"></i></a>
-                    <a href="https://github.com/ChetanBhogade"><i class="fab fa-github fa-lg p-1"></i></a>
+                    <a class="footer-link" href="https://www.facebook.com/chetan.bhogade.3"><i class="fab fa-facebook-f fa-lg p-1"></i></a>
+                    <a class="footer-link" href="https://twitter.com/BhogadeChetan"><i class="fab fa-twitter fa-lg p-1"></i></a>
+                    <a class="footer-link" href="https://www.instagram.com/chetan_bhogade/"><i class="fab fa-instagram fa-lg p-1"></i></a>
+                    <a class="footer-link" href="https://github.com/ChetanBhogade"><i class="fab fa-github fa-lg p-1"></i></a>
                 </div>
 
             </div>
@@ -89,10 +89,10 @@
     </div>
 
     <!-- Copyright -->
-    <hr>
+    <hr id="footer-hr">
     
     <div class="footer-copyright text-center py-3">© 2019-2020 Copyright:
-        <a href="{% url 'home' %}"> eComm Website </a>
+        <a class="footer-link" href="{% url 'home' %}"> eComm Website </a>
     </div>
     <!-- Copyright -->
 

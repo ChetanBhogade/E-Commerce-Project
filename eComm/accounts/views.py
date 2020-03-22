@@ -12,6 +12,9 @@ from carts.models import Cart
 
 
 def account_home_page(request):
+    if not request.user.is_authenticated:
+        messages.warning(request, "Please Login. You cannot access this page!")
+        return redirect("account:login")
     context = {}
     return render(request, "accounts/account-home.html", context=context)
 

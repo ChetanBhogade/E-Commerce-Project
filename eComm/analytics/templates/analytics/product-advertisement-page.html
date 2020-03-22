@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %} Product Advertisement - eComm {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1>Product Advertisement</h1>
+            <hr>
+        </div>
+    </div>
+
+    <div class="container p-5">
+        <div class="row featurette shadow-lg p-3">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">{{ popular_product.title|title }}</h2>
+                <h3><span class="text-muted">The Most Popular Product.</span></h3>
+                <p class="lead"><b>Description: - </b> {{ popular_product.description|truncatewords:25 }}</p>
+                <p><a class="btn btn-light btn-lg " href="{{ popular_product.get_absolute_url }}" role="button">View
+                        Product</a></p>
+            </div>
+            <div class="col-md-5">
+                <img src="{{ popular_product.image.url }}" alt="{{ popular_product.title }}"
+                    class="featurette-image img-fluid mx-auto">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <hr>
+        </div>
+    </div>
+
+    <div class="container p-5">
+        <div class="row shadow-lg">
+            <div class="col-md-8 col-12 mx-auto  p-4 m-5">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="text-center form-group mb-4">
+                        <h1>Advertise This Product</h1>
+                        <h5 class="mb-3 font-weight-normal">Send Mails To Our Customers</h5>
+                        <hr>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject For Advertise">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="content">Info About Product</label>
+                        <textarea class="form-control" id="content" name="content" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

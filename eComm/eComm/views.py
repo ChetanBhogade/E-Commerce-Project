@@ -32,19 +32,22 @@ def contact_page(request):
         'content': "Fill this out so we can learn more about you and your needs",
         'form': contact_form,
     }
+    full_name = request.POST.get('full_name')
+    customer_email = request.POST.get('email')
     content = request.POST.get('content')
-    mail = request.POST.get('email', 'chetan.bhogade3899@gmail.com')
+
+    receiver_email = 'chetanbhogade999@gmail.com'
     if contact_form.is_valid():
-        subject = 'Thank You from eComm Website - Chetan'
-        message = f'Welcome to the eComm Website. This eCommerce website is build upon the Python Django Framework.\nYour message is : -  \n{content}'
+        subject = 'Contact Form Submission - from eComm Website'
+        message = f'Contact Form Submission.\n\nCustomer Full Name: - {full_name}\nCustomer Email: - {customer_email}\nCustomer Query: - {content} '
         from_email = 'chetan.bhogade321@yahoo.com' 
-        to_list = [mail]
+        to_list = [receiver_email]
 
         try:
             send_mail(subject, message, from_email, to_list, fail_silently=False)
             print('Contact Page mail send successfully.')
         except Exception as e:
-            print(f"Something Went Wrong... Error is : {e}")
+            print(f"Something Went Wrong While Sending Email... Error is : {e}")
 
         messages.success(request, "Your form is successfully submitted.")
     return render(request, 'contact_page.html', context=context)

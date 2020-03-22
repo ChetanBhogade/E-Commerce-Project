@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.core.mail import send_mail
 
 from products.models import Product
 from .models import ObjectViewed
@@ -246,4 +248,46 @@ def sales_ajax_view(request):
         return redirect("account:login")
 
     return JsonResponse(data=data)
+
+
+
+def advertise_product_view(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            c_type = ContentType.objects.get_for_model(Product)
+            prods_qs = ObjectViewed.objects.filter(content_type=c_type)
+            test_list = [x.content_object for x in prods_qs]
+            my_dict = {i:test_list.count(i) for i in test_list}
+            popular_product = max(my_dict, key=my_dict.get)
+
+            if request.method == "POST":
+                subject = request.POST.get('subject')
+                description = request.POST.get('content')
+                all_users = User.objects.all()
+                receivers_list = []
+                for user in all_users:
+                    receivers_list.append(user.email)
+                from_email = 'chetan.bhogade321@yahoo.com'
+                message_body = f"{description}\n---------------------------------\nProduct Name: - {popular_product.title}\nProduct Description: - {popular_product.description}\nProduct Price: - {popular_product.price}/-\n---------------------------------\nView This Product: - http://127.0.0.1:8000/products/elitera-sunglasses/"
+
+                print(f"List of all users mail: - {receivers_list}")
+                try:
+                    send_mail(subject, message_body, from_email, receivers_list, fail_silently=False)
+                    messages.success(request, "Eail send successfully.")
+                    print("Eail send successfully.")
+                except Exception as e:
+                    messages.error(request, "Something Went Wrong While Sending Emails.")
+                    print(f"Something Went Wrong While Sending Email... Error is : {e}")
+
+            context = {
+                "popular_product": popular_product
+            }
+        else:
+            messages.error(request, "You cannot access this page. You are not an admin user.")
+            return redirect("account:account-home")
+    else:
+        messages.warning(request, "You cannot access this page. Please Login!")
+        return redirect("account:login")
+    return render(request, "analytics/product-advertisement-page.html", context=context)
+
 
