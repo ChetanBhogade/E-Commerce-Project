@@ -3,9 +3,17 @@
 
 {% block content %}
 
-<div class="row">
-    <div class="col-md-6 col-12 mx-auto text-center p-5 m-5">
-        <h1 class="display-1">Thank You for Your Order.</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-12 mx-auto text-center p-5 m-5">
+            <h1 class="display-2">Thank You for Your Order.</h1>
+        </div>
+        <div class="col-12">
+            <hr>
+        </div>
+        <div class="col-12 mx-auto text-center p-4">
+            <h6>Goto <a href="{% url 'account:account-home' %}">Account Home</a> Page.</h6>
+        </div>
     </div>
 </div>
 

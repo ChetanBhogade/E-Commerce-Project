@@ -273,8 +273,8 @@ def advertise_product_view(request):
                 print(f"List of all users mail: - {receivers_list}")
                 try:
                     send_mail(subject, message_body, from_email, receivers_list, fail_silently=False)
-                    messages.success(request, "Eail send successfully.")
-                    print("Eail send successfully.")
+                    messages.success(request, "Email send successfully.")
+                    print("Email send successfully.")
                 except Exception as e:
                     messages.error(request, "Something Went Wrong While Sending Emails.")
                     print(f"Something Went Wrong While Sending Email... Error is : {e}")

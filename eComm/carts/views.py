@@ -73,10 +73,14 @@ def checkout_home(request):
 
         if request.method == 'POST':
             if order_obj.check_done():
-                order_obj.mark_paid()
-                request.session['cart_items_count'] = 0
-                del request.session["cart_id"]
-                return redirect("cart:success")
+                if order_obj.payment_method == 'Cash On Delivery':
+                    request.session['cart_items_count'] = 0
+                    del request.session["cart_id"]
+                    return redirect("cart:success")
+                else:
+                    order_obj.mark_paid()
+                    print("Credit or debit selected. go to the online payment page.")
+                    return redirect("cart:payment_page")
 
 
     else:
@@ -98,5 +102,11 @@ def checkout_success(request):
     return render(request, "carts/success-checkout.html", {})
 
 
-
+def payment_page_view(request):
+    if request.method == 'POST':
+        print(request.POST)
+        request.session['cart_items_count'] = 0
+        del request.session["cart_id"]
+        return redirect("cart:success")
+    return render(request, "carts/payment-page.html", {})
 

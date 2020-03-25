@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %} Payment Page {% endblock %}
+
+{% block content %}
+
+<style>
+    .payment-form {
+        padding-bottom: 50px;
+    }
+    
+    .payment-form .block-heading {
+        padding-top: 50px;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+    
+    .payment-form .block-heading p {
+        text-align: center;
+        max-width: 420px;
+        margin: auto;
+        opacity:0.7;
+    }
+
+    .payment-form .block-heading h2 {
+        margin-bottom:1.2rem;
+        color: #3b99e0;
+    }
+    
+    .payment-form form {
+        border-top: 2px solid #5ea4f3;
+        background-color: #ffffff;
+        max-width: 600px;
+        margin: auto;
+    }
+    
+    .payment-form .title {
+        font-size: 1em;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        margin-bottom: 0.8em;
+        font-weight: 600;
+        padding-bottom: 8px;
+    }
+    
+    .payment-form .card-details {
+        padding: 25px 25px 15px;
+    }
+    
+    .payment-form .card-details label {
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #79818a;
+        text-transform: uppercase;
+    }
+    
+    .payment-form .card-details button {
+        margin-top: 0.6em;
+        padding:12px 0;
+        font-weight: 600;
+    }
+    
+    .payment-form .date-separator {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 5px;
+    }
+    
+</style>
+
+<section class="payment-form">
+    <div class="container">
+        <div class="block-heading">
+            <h2>Payment - eComm</h2>
+            <p>Your Card Details Will Not Saved to this Website.</p>
+        </div>
+        <form method="POST" class="shadow-lg">
+            {% csrf_token %}
+            <div class="card-details">
+                <h3 class="title">Credit Card Details</h3>
+                <div class="row">
+                    <div class="form-group col-sm-7">
+                        <label for="card-holder">Card Holder</label>
+                        <input id="card-holder" name="card-holder" type="text" class="form-control" placeholder="Card Holder" required>
+                    </div>
+                    <div class="form-group col-sm-5">
+                        <label for="expiration-date">Expiration Date</label>
+                        <div class="input-group expiration-date">
+                            <input type="text" name="expiration-date" class="form-control" placeholder="MM" required>
+                            <span class="date-separator">/</span>
+                            <input type="text" name="expiration-date" class="form-control" placeholder="YYYY" required>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-8">
+                        <label for="card-number">Card Number</label>
+                        <input id="card-number" type="text" class="form-control" placeholder="Card Number" name="card-number" required>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label for="cvc">CVC</label>
+                        <input id="cvc" name="cvc" type="password" class="form-control" placeholder="CVC" required>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <button type="submit" class="btn btn-primary btn-block">Proceed</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
