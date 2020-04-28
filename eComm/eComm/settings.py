@@ -90,19 +90,6 @@ DATABASES = {
     }
 }
 
-# MySQL Database 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'ecomm_project',
-#         'USER': 'root',
-#         'PASSWORD': 'Chetan@12345',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-#     }
-# }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
